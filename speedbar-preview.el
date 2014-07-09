@@ -1,22 +1,7 @@
 ;;; speedbar-previewer.el --- Previewer for speedbar buffers
 
-;; Copyright (C) 2013  -
-
-;; Author: - <nounch@nounch>
+;; Author: nounch <nounch@outlook.com>
 ;; Keywords: tools
-
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-
-;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -56,7 +41,6 @@
   ;;   `(get-text-property (1+ (point)) 'speedbar-text)'
   (let ((current-dir (speedbar-line-directory))
         (dir-or-file (get-text-property (1+ (point)) 'speedbar-text)))
-    ;; (concat "Preview for: " current-dir dir-or-file "/")
     (concat current-dir dir-or-file "/")))
 
 (defun prevw-show-preview-buffer ()
@@ -64,15 +48,15 @@
     (save-excursion
       (display-buffer (get-buffer-create prevw-buffer) t)
       (with-selected-window (get-buffer-window prevw-buffer)
-	; Make buffer writable
+        ;; Make buffer writable
         (toggle-read-only -1)
         (erase-buffer)
-	(unless (eq prevw-previous-dired-buffer "")
-	  (kill-buffer (get-buffer prevw-previous-dired-buffer)))
+        (unless (eq prevw-previous-dired-buffer "")
+          (kill-buffer (get-buffer prevw-previous-dired-buffer)))
         ;; (insert preview-content)
         (dired preview-content)
-	(setq prevw-previous-dired-buffer (buffer-name (current-buffer)))
-	; Make buffer read-only
+        (setq prevw-previous-dired-buffer (buffer-name (current-buffer)))
+        ;; Make buffer read-only
         (toggle-read-only 1)))))
 
 (defun prevw-next (&optional arg)
@@ -91,13 +75,15 @@
 ;;=========================================================================
 
 (defalias 'speedbar-preview 'prevw-preview
-  "")
+  "Preview the current item in the current Speedbar buffer.")
 
 (defalias 'speedbar-preview-next 'prevw-next
-  "")
+  "Preview the item below the current item in the current Speedbar \
+buffer.")
 
 (defalias 'speedbar-preview-prev 'prevw-prev
-  "")
+  "Preview the item above the current item in the current Speedbar \
+buffer.")
 
 
 ;;=========================================================================
@@ -106,6 +92,8 @@
 
 (define-key speedbar-key-map (kbd "N") 'speedbar-preview-next)
 (define-key speedbar-key-map (kbd "P") 'speedbar-preview-prev)
+(define-key speedbar-key-map (kbd "K") 'speedbar-preview)
+(define-key speedbar-key-map (kbd "k") 'speedbar-preview)
 
 
 ;;=========================================================================
